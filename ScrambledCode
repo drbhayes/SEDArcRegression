@@ -1,0 +1,97 @@
+plot2 <- ggplot(ExamData, aes(x = sleep_quality, y = exam_performance)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  theme_classic()
+
+r2_change <- r2_full - r2_control
+summary(ExamBinaryReg)
+
+library(correlation)
+ExamData$revision_hours <- as.numeric(ExamData$revision_hours)
+anova(Control, ExamMultiReg)
+
+ExamData$study_avg <- as.numeric(ExamData$study_avg)
+ExamInteractionReg <- lm(exam_performance ~ caffeine_intake + sleep_quality + revision_hours + gender*confidence, 
+                    data = ExamData)
+
+plot1 <- ggplot(ExamData, aes(x = caffeine_intake, y = exam_performance)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  theme_classic()
+
+cor.test(female$sleep_quality, female$exam_performance,
+         method = "pearson")
+
+Control <- lm(exam_performance ~ revision_hours, 
+              data = ExamData)
+
+ExamData$exam_performance <- as.numeric(ExamData$exam_performance)
+ExamSimpleReg <- lm(exam_performance ~ caffeine_intake + sleep_quality, 
+                    data = ExamData)
+
+grid.arrange(plot1, plot2, nrow = 2, ncol = 2) 
+cor.test(female$caffeine_intake, female$exam_performance,
+         method = "pearson")
+
+ExamBinaryReg <- lm(exam_performance ~ caffeine_intake + sleep_quality + revision_hours + gender, 
+                   data = ExamData)
+
+install.packages("tidyverse")
+library(ppcor)
+view(ExamData)
+summary(ExamMultiReg)
+install.packages("ppcor")
+
+ExamData$gender <- as.factor(ExamData$gender)
+ExamData$sleep_quality <- as.numeric(ExamData$sleep_quality)
+
+ExamData %>%
+  dplyr::select(caffeine_intake, sleep_quality, exam_performance) %>%
+  correlation(p_adjust = "none")
+
+cor.test(male$sleep_quality, male$exam_performance,
+         method = "pearson")
+
+install.packages("gridExtra")
+male <- ExamData[ExamData$gender == "0", ]
+library(gridExtra)
+
+cor.test(male$caffeine_intake, male$exam_performance,
+         method = "pearson")
+
+summary(ExamSimpleReg)
+print(plot_cc)
+summary(ExamInteractionReg)
+install.packages("cocor")
+
+ExamData$age <- as.numeric(ExamData$age)
+
+library(cocor)
+ExamData$confidence <- as.numeric(ExamData$confidence)
+
+ExamData$caffeine_intake <- as.numeric(ExamData$caffeine_intake)
+ExamMultiReg <- lm(exam_performance ~ caffeine_intake + sleep_quality + revision_hours, 
+                    data = ExamData)
+
+cocor.indep.groups(-0.05154634, -0.2921144, 236, 260)
+
+r2_full <- summary(ExamMultiReg)$adj.r.squared
+summary(Control)
+library(tidyverse)
+
+ExamData <- read_csv("student_exam_data.csv")
+r2_control <- summary(Control)$adj.r.squared
+
+install.packages("correlation")
+
+female <- ExamData[ExamData$gender == "1", ]
+plot_cc <- ggplot(ExamData, aes(x = caffeine_intake, y = exam_performance, colour = gender)) +
+  geom_point(aes(shape = gender)) +
+  geom_smooth(aes(linetype = gender), method = "lm", se = FALSE) +
+  labs(title = "Caffeine intake and exam performance by gender",
+       x = "Caffeine intake",
+       y = "Exam performance") +
+  theme_classic() +
+  scale_color_manual(values = c("0" = "grey", "1" = "black ")) +
+  scale_linetype_manual(values = c("0" = "solid", "1" = "dashed")) +
+  scale_shape_manual(values = c("0" = 16, "1" = 3))
